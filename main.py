@@ -16,8 +16,31 @@ for repo in repos:
     if repo.owner.login == current_user.login:
         all_repos.append(repo.name)
 
-# save the list to a file
-with open("all_repo.txt", "w") as f:
-    f.write(",".join(all_repos))
-    
-print("Successfull!!")
+# Get the repository
+repos = sorted(current_user.get_repos(), key=lambda x: x.created_at, reverse=True)
+
+
+# store all the repository names in a list
+all_repos = []
+for repo in repos:
+    if repo.owner.login == current_user.login:
+        all_repos.append(repo.name)
+
+contents = ",".join(all_repos)
+
+
+main_repo = g.get_repo("jaiganesh21/The-Main-Repo")
+
+branch = main_repo.get_branch(main_repo.default_branch)
+
+try:
+    file = main_repo.get_contents("all_repo.txt")
+    main_repo.delete_file(file.path, "Removing file", file.sha, branch.name)
+    print("File deleted successfully")
+except:
+    pass
+
+# Create or update the file
+main_repo.create_file("all_repo.txt", "Created DB", contents, branch=branch.name)
+print("File created successfully")
+
