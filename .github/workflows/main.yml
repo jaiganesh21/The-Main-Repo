@@ -28,12 +28,15 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: python main.py
       
-    - name: Commit files
+    - name: commit files
       run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add .
-        git commit -a -m "Add changes"
-        
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || (git commit -a -m "updated DB" --allow-empty)
+          
+    - name: push changes
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+#         branch: master 
