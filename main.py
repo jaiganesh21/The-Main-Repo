@@ -1,4 +1,5 @@
 from github import Github
+import os
 
 g = Github(os.environ["ACCESS_TOKEN"])
 
