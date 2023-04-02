@@ -28,6 +28,11 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: python main.py
       
+    - name: show accTok1
+      env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      run: echo $ACCESS_TOKEN
+      
     - name: commit files
       run: |
           git config --local user.email "action@github.com"
